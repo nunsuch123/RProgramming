@@ -9,34 +9,23 @@ corr <- function(directory, threshold = 0) {
         
         ## Return a numeric vector of correlations
         
-        #initialize
-
-        ids <- c() ##empty for ids
-        cs <- c() # empty for correlation
-
-        #pull in list of files
-        files_full <- list.files(directory, full.names=TRUE) # full paths
+        file.names <- list.files(path = directory, full.names=T)
         
-        for (i in 1:length(files_full)) {  
+        cr <- c()
+        
+        for (i in 1:length(file.names)) {
                 
-                # read in dataset
-                dat <- read.csv(files_full[i])
+                data <- read.csv(file.names[i])
+                data <- data[complete.cases(data),]
+                id <- head(data$ID, n=1)
                 
-                # subset complete cases
-                data <- dat[complete.cases(dat),]
-                
-                # pass thru ids
-                ids <- c(ids, i)
-                
-                # compare thresholds
                 if (nrow(data) > threshold) {
                         c <- cor(data$sulfate, data$nitrate)
-                        cs <- c(cs,c)
-                        
+                        cr <- c(cr,c)
                 }
                 
         }
         
-        cs
+        cr
         
 }
