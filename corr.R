@@ -11,9 +11,14 @@ corr <- function(directory, threshold = 0) {
         files_full <- list.files(directory, full.names=TRUE) # full paths
         dat <- data.frame() # empty data frame to hold records
         nobs <- numeric() # empty numeric vector to hold  values
+        ids <- numeric() ##empty for ids
         for (i in id) {  
                 dat <- rbind(dat, read.csv(files_full[i]))
-                nobs <- c(nobs, sum(complete.cases(dat))) ## summarize and add to vector
+                datc <- subset(dat, complete.cases(dat))
+                tnobs <- nrow(datc)
+                nobs <- c(nobs, tnobs)
+                ids <- c(ids, i)
+                result <- data.frame(id=ids, nobs=nobs)     
         }
         if nobs <= threshold
 }

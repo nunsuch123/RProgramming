@@ -12,12 +12,28 @@ complete <- function(directory, id = 1:332) {
         ## ...
         ## where 'id' is the monitor ID number and 'nobs' is the
         ## number of complete cases
+        
         files_full <- list.files(directory, full.names=TRUE) # full paths
         dat <- data.frame() # empty data frame to hold records
         nobs <- numeric() # empty numeric vector to hold  values
+        ids <- numeric() ##empty for ids
+        result <- data.frame() ## empty data frame for result
         for (i in id) {  
+                
                 dat <- rbind(dat, read.csv(files_full[i]))
-                nobs <- c(nobs, sum(complete.cases(dat))) ## summarize and add to vector
+                #datc <- subset(dat, complete.cases(dat))
+                
+                nobs <- c(nobs, nrow(dat[complete.cases(dat),]))
+                
+                ids <- c(ids, i)
+                        print(ids)
+                #nobs <- c(nobs, nrow(datc))    
+                        print(nobs)
+                result <- data.frame(id=ids, nobs=nobs)
         }
-        return(data.frame(id, nobs))
+        #result <- rbind(result , data.frame(id = ids, nobs = nobs))
+        #result <- data.frame(id=ids, nobs=nobs)
+        
+        #return(data.frame(id, nobs))
+        return(result)
 }
