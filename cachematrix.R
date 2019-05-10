@@ -4,6 +4,7 @@
 # and the second applies the inverse if not already done
 ## Write a short comment describing this function
 #cache a matrix based on input
+#lintagliata 5/10/2019
 makeCacheMatrix <- function(x = matrix()) {
         m <- NULL
         set <- function(y) {
